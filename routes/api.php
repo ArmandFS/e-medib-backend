@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserRecordDataController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout']);
+
+    // USER RECORD DATA
+    Route::post('/user-record-data', [UserRecordDataController::class, 'store']);
+    Route::get('/user-record-data', [UserRecordDataController::class, 'index']);
+    Route::get('/user-record-data/{id}', [UserRecordDataController::class, 'show'])->middleware('ensure-data-owner');
+    Route::patch('/user-record-data/{id}', [UserRecordDataController::class, 'update'])->middleware('ensure-data-owner');
+    Route::delete('/user-record-data/{id}', [UserRecordDataController::class, 'destroy'])->middleware('ensure-data-owner');
+});

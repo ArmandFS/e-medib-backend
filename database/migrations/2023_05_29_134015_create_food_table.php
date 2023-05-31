@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('cholesterol');
             $table->string('protein');
             $table->string('carbohydrate');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            
             $table->softDeletes();
             $table->timestamps();
         });

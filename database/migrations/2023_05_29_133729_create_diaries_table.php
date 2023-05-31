@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('temperature');
             $table->string('last_visit');
             $table->text('diary')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            
             $table->softDeletes();
             $table->timestamps();
         });

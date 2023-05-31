@@ -17,8 +17,13 @@ return new class extends Migration
             $table->string('bmr', 100)->nullable();
             $table->text('disease_history')->nullable();
             $table->text('alergic')->nullable();
-            $table->string('bloof_pressure')->nullable();
+            $table->string('blood_pressure')->nullable();
+            $table->string('blood_sugar_level')->nullable();
             $table->string('cholesterol')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->softDeletes();
             $table->timestamps();
         });

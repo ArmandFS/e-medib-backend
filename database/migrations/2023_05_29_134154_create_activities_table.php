@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('activity_name', 100);
             $table->text('activity_desc');
             $table->string('met', 100)->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->softDeletes();
             $table->timestamps();
         });
