@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -96,6 +97,20 @@ class AuthController extends Controller
                 'code' => 200,
                 'status' => 'success',
                 'message' => "Successfully logout"
+            ],
+        ], 200);
+    }
+
+    public function accountData()
+    {
+        $currentUserId =  Auth::user()->id;
+        $userData = User::findOrFail($currentUserId);
+        return response()->json([
+            'data' => $userData,
+            'meta' => [
+                'code' => 200,
+                'status' => 'success',
+                'message' => "Success"
             ],
         ], 200);
     }
