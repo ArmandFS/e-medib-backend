@@ -51,6 +51,7 @@ class FoodController extends Controller
     public function show($id)
     {
         $food = Food::findOrFail($id);
+        $this->authorize('view', $food);
         return ((new FoodResource($food->loadMissing('user')))->additional([
             'meta' => [
                 'code' => 200,
@@ -63,6 +64,9 @@ class FoodController extends Controller
     // Update Data
     public function update(Request $request, $id)
     {
+        $food = Food::findOrFail($id);
+        $this->authorize('update', $food);
+
         $request->validate([
             'food_name' => ['max:100', 'string',],
             'calories' => ['max:255', 'string',],
@@ -72,7 +76,7 @@ class FoodController extends Controller
             'protein' => ['max:255', 'string',],
             'carbohydrate' => ['max:255', 'string',],
         ]);
-        $food = Food::findOrFail($id);
+
         $food->update($request->all());
         return ((new FoodResource($food->loadMissing('user')))->additional([
             'meta' => [
@@ -87,6 +91,8 @@ class FoodController extends Controller
     public function destroy($id)
     {
         $food = Food::findOrFail($id);
+        $this->authorize('delete', $food);
+
         $food->delete();
         $data = [
             'status' => true,

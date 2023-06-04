@@ -47,7 +47,9 @@ class UserRecordDataController extends Controller
     public function show($id)
     {
 
-        $userRecordData = UserRecordData::findOrFail($id);
+        $userRecordData = UserRecordData::findOrFail(decrypt($id));
+        // PANGGIL POLICY
+        $this->authorize('view', $userRecordData);
         return ((new UserRecordDataResource($userRecordData->loadMissing('user')))->additional([
             'meta' => [
                 'code' => 200,
@@ -60,11 +62,13 @@ class UserRecordDataController extends Controller
     // Update Data
     public function update(Request $request, $id)
     {
+        $userRecordData = UserRecordData::findOrFail($id);
+        $this->authorize('update', $userRecordData);
+
         $request->validate([
             'bmi' => ['max:100'],
             'bmr' => ['max:100'],
         ]);
-        $userRecordData = UserRecordData::findOrFail($id);
         $userRecordData->update($request->all());
         return ((new UserRecordDataResource($userRecordData->loadMissing('user')))->additional([
             'meta' => [
@@ -79,6 +83,8 @@ class UserRecordDataController extends Controller
     public function destroy($id)
     {
         $userRecordData = UserRecordData::findOrFail($id);
+        $this->authorize('delete', $userRecordData);
+
         $userRecordData->delete();
         $data = [
             'status' => true,

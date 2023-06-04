@@ -71,6 +71,7 @@ class DiaryController extends Controller
     public function show($id)
     {
         $diary = Diary::findOrFail($id);
+        $this->authorize('view', $diary);
         return ((new DiaryResource($diary->loadMissing('user')))->additional([
             'meta' => [
                 'code' => 200,
@@ -84,6 +85,9 @@ class DiaryController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail(auth()->id());
+        $diary = Diary::findOrFail($id);
+        $this->authorize('update', $diary);
+
         $request->validate([
             'calory_intake' => ['max:255', 'string',],
             'blood_sugar' => ['max:255', 'string',],
@@ -94,7 +98,6 @@ class DiaryController extends Controller
             'last_visit' => ['max:255', 'string',],
             'diary' => [],
         ]);
-        $diary = Diary::findOrFail($id);
 
         if ($request->hasFile('injury_img_file')) {
             $imageKit = new ImageKit(
@@ -128,6 +131,7 @@ class DiaryController extends Controller
     public function destroy($id)
     {
         $diary = Diary::findOrFail($id);
+        $this->authorize('delete', $diary);
         $diary->delete();
         $data = [
             'status' => true,

@@ -47,6 +47,8 @@ class ActivityController extends Controller
     public function show($id)
     {
         $activity = Activity::findOrFail($id);
+        // PANGGIL POLICY
+        $this->authorize('view', $activity);
         return ((new ActivityResource($activity->loadMissing('user')))->additional([
             'meta' => [
                 'code' => 200,
@@ -59,12 +61,14 @@ class ActivityController extends Controller
     // Update Data
     public function update(Request $request, $id)
     {
+        $activity = Activity::findOrFail($id);
+        $this->authorize('view', $activity);
+
         $request->validate([
             'activity_name' => ['max:255', 'string',],
             'activity_desc' => ['string'],
             'met' => ['max:100'],
         ]);
-        $activity = Activity::findOrFail($id);
         $activity->update($request->all());
         return ((new ActivityResource($activity->loadMissing('user')))->additional([
             'meta' => [
@@ -79,6 +83,7 @@ class ActivityController extends Controller
     public function destroy($id)
     {
         $activity = Activity::findOrFail($id);
+        $this->authorize('view', $activity);
         $activity->delete();
         $data = [
             'status' => true,
