@@ -71,6 +71,7 @@ class DiaryController extends Controller
     public function show($id)
     {
         $diary = Diary::findOrFail($id);
+        // PANGGIL POLICY
         $this->authorize('view', $diary);
         return ((new DiaryResource($diary->loadMissing('user')))->additional([
             'meta' => [

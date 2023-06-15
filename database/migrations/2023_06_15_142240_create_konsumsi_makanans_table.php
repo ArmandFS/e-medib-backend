@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('konsumsi_makanans', function (Blueprint $table) {
             $table->id();
-            $table->string('activity_name', 100);
-            $table->text('activity_desc');
-            $table->string('met', 100)->nullable();
+            $table->text('makanan');
+            $table->string('porsi');
+            $table->string('kalori');
+            $table->string('jenis_waktu_makan');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->softDeletes();
+
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('konsumsi_makanans');
     }
 };

@@ -47,7 +47,7 @@ class UserRecordDataController extends Controller
     public function show($id)
     {
 
-        $userRecordData = UserRecordData::findOrFail(decrypt($id));
+        $userRecordData = UserRecordData::findOrFail($id);
         // PANGGIL POLICY
         $this->authorize('view', $userRecordData);
         return ((new UserRecordDataResource($userRecordData->loadMissing('user')))->additional([

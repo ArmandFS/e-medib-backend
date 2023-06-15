@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Activity extends Model
+class Kolesterol extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
-        'activity_name',
-        'activity_desc',
-        'met',
-        'user_id',
+        'kolesterol',
+        'status',
+        'user_id'
     ];
 
     /**
-     * Get the user that owns the Activity
+     * Get the owner that owns the UserRecordData
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
