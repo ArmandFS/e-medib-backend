@@ -5,21 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Diary extends Model
+class Rekap extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
-        'gambar_luka',
-        'catatan_luka',
-        'catatan',
-        'user_id',
+        "gula_darah",
+        "gula_darah_keterangan",
+        "kolesterol",
+        "kolesterol_keterangan",
+        "gambar_luka",
+        "catatan_luka",
+        "total_konsumsi_kalori",
+        "total_pembakaran_kalori",
+        "catatan",
+        'user_id'
     ];
 
     /**
-     * Get the owner that owns the UserRecordData
+     * Get the user that owns the Rekap
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

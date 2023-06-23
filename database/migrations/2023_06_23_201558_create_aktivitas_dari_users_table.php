@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('food', function (Blueprint $table) {
+        Schema::create('aktivitas_dari_users', function (Blueprint $table) {
             $table->id();
-            $table->string('food_name', 100);
-            $table->string('calories');
-            $table->string('glucose');
-            $table->string('fat');
-            $table->string('cholesterol');
-            $table->string('protein');
-            $table->string('carbohydrate');
+            $table->text('nama_aktivitas');
+            $table->string('met');
+            $table->string('durasi')->nullable();
+            $table->string('kalori')->nullable();
+            $table->string('tingkat_aktivitas');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('food');
+        Schema::dropIfExists('aktivitas_dari_users');
     }
 };

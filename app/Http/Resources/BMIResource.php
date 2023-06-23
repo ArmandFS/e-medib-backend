@@ -20,6 +20,7 @@ class BMIResource extends JsonResource
             'tinggi_badan' =>  $this->tinggi_badan,
             'bmi' =>  $this->bmi,
             'status' =>  $this->status,
+            'keterangan' =>  $this->keterangan,
             'created_at' => date_format($this->created_at, "d-m-Y H:i:s"),
         ];
     }

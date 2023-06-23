@@ -11,16 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('diaries', function (Blueprint $table) {
+        Schema::create('rekaps', function (Blueprint $table) {
             $table->id();
+            $table->string('gula_darah');
+            $table->string('gula_darah_keterangan');
+            $table->string('kolesterol');
+            $table->string('kolesterol_keterangan');
             $table->string('gambar_luka');
             $table->text('catatan_luka');
+            $table->string('total_konsumsi_kalori');
+            $table->string('total_pembakaran_kalori');
             $table->text('catatan');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('diaries');
+        Schema::dropIfExists('rekaps');
     }
 };

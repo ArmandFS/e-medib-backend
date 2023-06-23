@@ -5,25 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Food extends Model
+class AktivitasDariUser extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
-        'food_name',
-        'calories',
-        'glucose',
-        'fat',
-        'cholesterol',
-        'protein',
-        'carbohydrate',
+        'nama_aktivitas',
+        'met',
+        'durasi',
+        'kalori',
+        'tingkat_aktivitas',
         'user_id',
     ];
 
     /**
-     * Get the owner that owns the UserRecordData
+     * Get the user that owns the AktivitasDariUser
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

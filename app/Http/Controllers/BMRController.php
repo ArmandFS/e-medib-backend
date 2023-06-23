@@ -43,7 +43,7 @@ class BMRController extends Controller
         $request['user_id'] = Auth::user()->id;
 
         $berat_badan = (float)$request['berat_badan'];
-        $tinggi_badan = (float)$request['tinggi_badan'] / 100;
+        $tinggi_badan = (float)$request['tinggi_badan'];
         $usia = (float)$request['usia'];
         $bmr = 0;
 
@@ -52,7 +52,7 @@ class BMRController extends Controller
         }
 
         if ($request['jenis_kelamin'] === "P") {
-            $bmr = round(65.5 + (9.6 * $berat_badan) + (1.8 * $tinggi_badan) - (4.7 * $usia), 2);
+            $bmr = round(655 + (9.6 * $berat_badan) + (1.8 * $tinggi_badan) - (4.7 * $usia), 2);
         }
 
         $bmr_data = BMR::create([

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kolesterol;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,13 @@ class KolesterolController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $tanggal = Carbon::parse($request->query('tanggal'))->format('Y-m-d');
+
+
         $currentUserId =  Auth::user()->id;
-        $kolesterol = Kolesterol::where('user_id', '=',  $currentUserId)->get();
+        $kolesterol = Kolesterol::where('user_id', '=',  $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->orderBy('created_at', 'DESC')->get();
         return response()->json([
             "data" => $kolesterol
         ]);
@@ -42,7 +46,7 @@ class KolesterolController extends Controller
 
         if ($kolesterol < 200) $status = "Baik";
         if ($kolesterol >= 200 and $kolesterol <= 239) $status = "Waspada";
-        if ($kolesterol > 239) $status = "Baiaya";
+        if ($kolesterol > 239) $status = "Bahaya";
 
         $kolesterol_data = Kolesterol::create([
             'kolesterol' => $kolesterol,

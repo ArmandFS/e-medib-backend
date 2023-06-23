@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KonsumsiMakanan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +14,24 @@ class KonsumsiMakananController extends Controller
      */
     public function index(Request $request)
     {
+        $tanggal = Carbon::parse($request->query('tanggal'))->format('Y-m-d');
+
         $currentUserId = Auth::user()->id;
         $queryParameter = $request->query('waktu_makan');
-        $data = KonsumsiMakanan::query()->where('jenis_waktu_makan', 'LIKE', $queryParameter)->where('user_id', '=', $currentUserId)->get();
+        $dataAll = KonsumsiMakanan::query()->where('jenis_waktu_makan', 'LIKE', $queryParameter)->where('user_id', '=', $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->orderBy('kalori', 'DESC')->get();
+        $totalKaloriSarapan = KonsumsiMakanan::query()->where('jenis_waktu_makan', 'LIKE', "SARAPAN")->where('user_id', '=', $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->sum('kalori');
+        $totalKaloriMakanSiang = KonsumsiMakanan::query()->where('jenis_waktu_makan', 'LIKE', "MAKAN_SIANG")->where('user_id', '=', $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->sum('kalori');
+        $totalKaloriMakanMalam = KonsumsiMakanan::query()->where('jenis_waktu_makan', 'LIKE', "MAKAN_MALAM")->where('user_id', '=', $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->sum('kalori');
+        $totalKaloriLainnya = KonsumsiMakanan::query()->where('jenis_waktu_makan', 'LIKE', "LAINNYA")->where('user_id', '=', $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->sum('kalori');
+        $totalKalori = KonsumsiMakanan::query()->whereDate('created_at', "LIKE", $tanggal)->sum('kalori');
+
         return response()->json([
-            "data" => $data,
+            "data" => $dataAll,
+            "total_kalori_sarapan" => $totalKaloriSarapan,
+            "total_kalori_makan_siang" => $totalKaloriMakanSiang,
+            "total_kalori_makan_malam" => $totalKaloriMakanMalam,
+            "total_kalori_lainnya" => $totalKaloriLainnya,
+            "total_kalori" => $totalKalori,
         ]);
     }
 
@@ -43,6 +57,7 @@ class KonsumsiMakananController extends Controller
         $request['user_id'] = Auth::user()->id;
 
         $konsumsi_makanan = KonsumsiMakanan::create($request->all());
+
         return response()->json(["data" => $konsumsi_makanan]);
     }
 

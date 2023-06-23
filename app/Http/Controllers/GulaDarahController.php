@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GulaDarah;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,12 @@ class GulaDarahController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $tanggal = Carbon::parse($request->query('tanggal'))->format('Y-m-d');
+
         $currentUserId =  Auth::user()->id;
-        $gula_darah = GulaDarah::where('user_id', '=',  $currentUserId)->get();
+        $gula_darah = GulaDarah::where('user_id', '=',  $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->orderBy('created_at', 'DESC')->get();
         return response()->json([
             "data" => $gula_darah
         ]);
@@ -45,7 +48,7 @@ class GulaDarahController extends Controller
         if ($request['keterangan'] === "BERPUASA") {
             if ($gula_darah < 100) $status = "Normal";
             if ($gula_darah >= 100 and $gula_darah <= 125) $status = "Pre-diabetes";
-            if ($gula_darah > 126) $status = "Diabetes (Tinggi)";
+            if ($gula_darah > 126) $status = "Tinggi";
         }
 
         if ($request['keterangan'] === "SEBELUM_MAKAN") {

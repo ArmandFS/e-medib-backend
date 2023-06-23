@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aktivitas;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,44 +15,21 @@ class AktivitasController extends Controller
      */
     public function index(Request $request)
     {
-        $currentUserId =  Auth::user()->id;
+
         $queryParameter = $request->query('tingkat_aktivitas');
-        $aktivitas = Aktivitas::query()->where('tingkat_aktivitas', 'LIKE', $queryParameter)->get();
+        $aktivitas = Aktivitas::query()->where('tingkat_aktivitas', 'LIKE', $queryParameter)->orderBy('kalori', 'DESC')->get();
+
         return response()->json([
-            "data" => $aktivitas
+            "data" => $aktivitas,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function resetDataAktivitas()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Aktivitas $aktivitas)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Aktivitas $aktivitas)
-    {
-        //
+        $reset = Aktivitas::query()->update(['durasi' => '0', 'kalori' => "0"]);
+        return response()->json([
+            "data" => $reset
+        ]);
     }
 
     /**
@@ -82,13 +60,5 @@ class AktivitasController extends Controller
         return response()->json([
             "data" => $aktivitas
         ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Aktivitas $aktivitas)
-    {
-        //
     }
 }

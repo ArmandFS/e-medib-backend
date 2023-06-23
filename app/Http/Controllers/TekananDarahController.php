@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TekananDarah;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,12 @@ class TekananDarahController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $tanggal = Carbon::parse($request->query('tanggal'))->format('Y-m-d');
+
         $currentUserId =  Auth::user()->id;
-        $tekanan_darah = TekananDarah::where('user_id', '=',  $currentUserId)->get();;
+        $tekanan_darah = TekananDarah::where('user_id', '=',  $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->orderBy('created_at', 'DESC')->get();;
         return response()->json([
             "data" => $tekanan_darah
         ]);
@@ -43,9 +46,9 @@ class TekananDarahController extends Controller
         $diastolik = (float)$request['diastolik'];
         $status = "";
 
-        if ($sistolik < 120 or $diastolik < 80) $status = "Normal";
-        if (($sistolik >= 120 and $sistolik <= 139) or ($diastolik >= 80 and $diastolik <= 89)) $status = "Pre-Hipertensi ";
-        if ($sistolik > 139 or $diastolik < 89) $status = "Hipertensi ";
+        if ($sistolik < 120 and $diastolik < 80) $status = "Normal";
+        if (($sistolik >= 120 and $sistolik <= 139) or ($diastolik >= 80 and $diastolik <= 89)) $status = "Pre-Hipertensi";
+        if ($sistolik > 139 and $diastolik > 89) $status = "Hipertensi ";
 
         $data_tekanan_darah = TekananDarah::create([
             'sistolik' => $sistolik,

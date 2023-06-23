@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hba1c;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,12 @@ class Hba1cController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $tanggal = Carbon::parse($request->query('tanggal'))->format('Y-m-d');
+
         $currentUserId =  Auth::user()->id;
-        $hba1c = Hba1c::where('user_id', '=',  $currentUserId)->get();
+        $hba1c = Hba1c::where('user_id', '=',  $currentUserId)->whereDate('created_at', "LIKE", $tanggal)->orderBy('created_at', 'DESC')->get();
         return response()->json([
             "data" => $hba1c
         ]);
@@ -36,14 +39,13 @@ class Hba1cController extends Controller
         $request->validate([
             'kadar_hba1c' => ['string', 'min:1', 'required'],
         ]);
-        $request['user_id'] = Auth::user()->id;
 
         $kadar_hba1c = (float)$request['kadar_hba1c'];
         $status = "";
 
         if ($kadar_hba1c < 5.7) $status = "Normal";
-        if ($kadar_hba1c >= 5.7 and $kadar_hba1c <= 6.4) $status = "Pre Diabeter";
-        if ($kadar_hba1c > 6.5) $status = "Diabaetes";
+        if ($kadar_hba1c >= 5.7 and $kadar_hba1c <= 6.4) $status = "Pre-diabetes";
+        if ($kadar_hba1c > 6.5) $status = "Diabetes";
 
         $hba1c_data = Hba1c::create([
             'kadar_hba1c' => $kadar_hba1c,

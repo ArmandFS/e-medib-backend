@@ -15,10 +15,11 @@ class KonsumsiMakanan extends Model
         'porsi',
         'kalori',
         'jenis_waktu_makan',
-        'user_id'
+        'user_id',
     ];
 
-      /**
+
+    /**
      * Get the owner that owns the UserRecordData
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

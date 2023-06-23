@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('tinggi_badan', 100);
             $table->string('bmi');
             $table->string('status');
+            $table->text('keterangan');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

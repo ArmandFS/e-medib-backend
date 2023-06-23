@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AktivitasController;
+use App\Http\Controllers\AktivitasDariUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BMIController;
 use App\Http\Controllers\BMRController;
@@ -11,9 +12,13 @@ use App\Http\Controllers\GulaDarahController;
 use App\Http\Controllers\Hba1cController;
 use App\Http\Controllers\KolesterolController;
 use App\Http\Controllers\KonsumsiMakananController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\RekapController;
 use App\Http\Controllers\TekananDarahController;
 use App\Http\Controllers\UserRecordDataController;
+use App\Models\AktivitasDariUser;
 use App\Models\KonsumsiMakanan;
+use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,10 +47,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user-record-data/{id}', [UserRecordDataController::class, 'show']);
     Route::patch('/user-record-data/{id}', [UserRecordDataController::class, 'update']);
     Route::delete('/user-record-data/{id}', [UserRecordDataController::class, 'destroy']);
-    
+
     // ACTIVITAS
     Route::get('/aktivitas', [AktivitasController::class, 'index']);
-    Route::patch('/tambah-aktivitas/{id}', [AktivitasController::class, 'update']);
+    // --- aktivitas dari User
+    Route::get('/aktivitas-user', [AktivitasDariUserController::class, 'index']);
+    Route::post('/aktivitas-user', [AktivitasDariUserController::class, 'store']);
+    Route::patch('/aktivitas-user/{id}', [AktivitasDariUserController::class, 'update']);
+    Route::delete('/aktivitas-user/{id}', [AktivitasDariUserController::class, 'destroy']);
 
     // DIARY DATA
     Route::get('/diaries', [DiaryController::class, 'index']);
@@ -54,20 +63,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/diaries/{id}', [DiaryController::class, 'update']);
     Route::delete('/diaries/{id}', [DiaryController::class, 'destroy']);
 
-    // FOOD DATA
-    Route::get('/foods', [FoodController::class, 'index']);
-    Route::post('/foods', [FoodController::class, 'store']);
-    Route::get('/foods/{id}', [FoodController::class, 'show']);
-    Route::patch('/foods/{id}', [FoodController::class, 'update']);
-    Route::delete('/foods/{id}', [FoodController::class, 'destroy']);
-
     // BMI
     Route::post('/hitung-bmi', [BMIController::class, 'store']);
     Route::get('/bmi', [BMIController::class, 'index']);
 
-    // BMT
+    // BMR
     Route::post('/hitung-bmr', [BMRController::class, 'store']);
-    Route::get('/bmr', [BMIController::class, 'index']);
+    Route::get('/bmr', [BMRController::class, 'index']);
 
     // Gula Darah
     Route::post('/hitung-gula-darah', [GulaDarahController::class, 'store']);
@@ -85,7 +87,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/tambah-konsumsi-makanan', [KonsumsiMakananController::class, 'store']);
     Route::get('/konsumsi-makanan', [KonsumsiMakananController::class, 'index']);
 
-     // KOLESTEROL
-     Route::post('/hitung-kolsterol', [KolesterolController::class, 'store']);
-     Route::get('/kolesterol', [KolesterolController::class, 'index']);
+    // KOLESTEROL
+    Route::post('/hitung-kolsterol', [KolesterolController::class, 'store']);
+    Route::get('/kolesterol', [KolesterolController::class, 'index']);
+
+    //  REKAP
+    Route::get('/rekap', [RekapController::class, 'index']);
+    Route::post('/tambah-rekap', [RekapController::class, 'store']);
+    Route::get('/rekap/{id}', [RekapController::class, 'show']);
 });

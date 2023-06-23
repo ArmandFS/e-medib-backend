@@ -16,14 +16,9 @@ class DiaryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'calory_intake' => $this->calory_intake,
-            'blood_sugar' => $this->blood_sugar,
-            'blood_presure' => $this->blood_presure,
-            'injury_img' => $this->injury_img,
-            'injury_desc' => $this->injury_desc,
-            'temperature' => $this->temperature,
-            'last_visit' => $this->last_visit,
-            'diary' => $this->diary,
+            'gambar_luka' => $this->gambar_luka,
+            'catatan_luka' => $this->catatan_luka,
+            'catatan' => $this->catatan,
             'user' =>  $this->whenLoaded('user'),
             'created_at' => date_format($this->created_at, "d-m-Y H:i:s"),
         ];

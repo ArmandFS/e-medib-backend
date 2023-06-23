@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diary;
-use ImageKit\ImageKit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\DiaryResource;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use ImageKit\ImageKit;
 
 class DiaryController extends Controller
 {
@@ -16,49 +18,29 @@ class DiaryController extends Controller
     {
         $currentUserId =  Auth::user()->id;
         $diary = Diary::where('user_id', '=',  $currentUserId)->get();
-        return DiaryResource::collection($diary->loadMissing('user:id,username'))->additional([
-            'meta' => [
-                'code' => 200,
-                'status' => 'Success',
-                'message' => "Success"
-            ],
+        return response()->json([
+            "data" => $diary
         ]);
     }
 
     // Store data
     public function store(Request $request)
     {
-        $user = User::findOrFail(auth()->id());
         $request->validate([
-            'calory_intake' => ['max:255', 'string',],
-            'blood_sugar' => ['max:255', 'string',],
-            'blood_presure' => ['max:255', 'string',],
-            'injury_img_file' => ['image', 'mimes:jpg,jpeg,bmp,png'],
-            'injury_desc' => ['max:255', 'string',],
-            'temperature' => ['max:255', 'string',],
-            'last_visit' => ['max:255', 'string',],
-            'diary' => [],
+            'gambar_luka_file' => ['nullable', 'required', 'image', 'mimes:jpg,jpeg,bmp,png'],
+            'catatan_luka' => ['string',],
+            'catatan' => ['string',],
         ]);
         $request['user_id'] = Auth::user()->id;
 
-        $imageKit = new ImageKit(
-            env('IMAGEKIT_PUBLIC_KEY'),
-            env('IMAGEKIT_PRIVATE_KEY'),
-            env('IMAGEKIT_ENDPOINT_URL'),
-        );
-        $image = base64_encode(file_get_contents($request->file('injury_img_file')));
-        $uploadImage = $imageKit->uploadFile(
-            [
-                'file' => $image,
-                'fileName' => $user->email,
-                'folder' => '/e-medib/injury-images'
-            ]
-        );
-        $imageUrl = $uploadImage->result->url;
-        $request['injury_img'] = $imageUrl;
+        $today = Carbon::today()->format('Y-m-d');
+        $gambar_luka_file = $request->file('gambar_luka_file');
+        $path = $gambar_luka_file->storeAs('gambar-luka', 'gambar_luka' . '_' . $today . '_' . uniqid() . '.' . $gambar_luka_file->extension(), ['disk' => 'public']);
+        $linkImage = Storage::url($path);
+        $request['gambar_luka'] = $linkImage;
 
         $diary = Diary::create($request->all());
-        return ((new DiaryResource($diary->loadMissing('user')))->additional([
+        return ((new DiaryResource($diary->loadMissing('user:id,username')))->additional([
             'meta' => [
                 'code' => 200,
                 'status' => 'Success',
@@ -73,13 +55,7 @@ class DiaryController extends Controller
         $diary = Diary::findOrFail($id);
         // PANGGIL POLICY
         $this->authorize('view', $diary);
-        return ((new DiaryResource($diary->loadMissing('user')))->additional([
-            'meta' => [
-                'code' => 200,
-                'status' => 'Success',
-                'message' => "Success"
-            ],
-        ]));
+        return response()->json(["data" => $diary]);
     }
 
     // Update Data
@@ -90,36 +66,21 @@ class DiaryController extends Controller
         $this->authorize('update', $diary);
 
         $request->validate([
-            'calory_intake' => ['max:255', 'string',],
-            'blood_sugar' => ['max:255', 'string',],
-            'blood_presure' => ['max:255', 'string',],
-            'injury_img_file' => ['image', 'mimes:jpg,jpeg,bmp,png'],
-            'injury_desc' => ['max:255', 'string',],
-            'temperature' => ['max:255', 'string',],
-            'last_visit' => ['max:255', 'string',],
-            'diary' => [],
+            'gambar_luka_file' => ['nullable', 'image', 'mimes:jpg,jpeg,bmp,png'],
+            'catatan_luka' => ['string', 'nullable'],
+            'catatan' => ['string', 'nullable'],
         ]);
 
-        if ($request->hasFile('injury_img_file')) {
-            $imageKit = new ImageKit(
-                env('IMAGEKIT_PUBLIC_KEY'),
-                env('IMAGEKIT_PRIVATE_KEY'),
-                env('IMAGEKIT_ENDPOINT_URL'),
-            );
-            $image = base64_encode(file_get_contents($request->file('injury_img_file')));
-            $uploadImage = $imageKit->uploadFile(
-                [
-                    'file' => $image,
-                    'fileName' => $user->email,
-                    'folder' => '/e-medib/injury-images'
-                ]
-            );
-            $imageUrl = $uploadImage->result->url;
-            $request['injury_img'] = $imageUrl;
+        if ($request->hasFile('gambar_luka_file')) {
+            $today = Carbon::today()->format('Y-m-d');
+            $gambar_luka_file = $request->file('gambar_luka_file');
+            $path = $gambar_luka_file->storeAs('gambar-luka', 'gambar_luka' . '_' . $today . '_' . uniqid() . '.' . $gambar_luka_file->extension(), ['disk' => 'public']);
+            $linkImage = Storage::url($path);
+            $request['gambar_luka'] = $linkImage;
         }
 
         $diary->update($request->all());
-        return ((new DiaryResource($diary->loadMissing('user')))->additional([
+        return ((new DiaryResource($diary->loadMissing('user:id,username')))->additional([
             'meta' => [
                 'code' => 200,
                 'status' => 'Success',

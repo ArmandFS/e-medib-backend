@@ -15,6 +15,7 @@ class BMI extends Model
         'tinggi_badan',
         'bmi',
         'status',
+        'keterangan',
         'user_id',
     ];
 
