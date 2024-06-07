@@ -12,9 +12,7 @@ class Rekap extends Model
 
     protected $fillable = [
         "gula_darah",
-        "gula_darah_keterangan",
         "kolesterol",
-        "kolesterol_keterangan",
         "gambar_luka",
         "catatan_luka",
         "total_konsumsi_kalori",

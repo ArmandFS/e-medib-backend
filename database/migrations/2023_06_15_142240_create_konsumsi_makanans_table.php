@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('porsi');
             $table->string('kalori');
             $table->string('jenis_waktu_makan');
+            $table->string('kadar_glukosa')->nullable();
+            $table->string('kadar_karbohidrat')->nullable();
+            $table->string('kadar_protein')->nullable();
+            $table->text('kandungan_gizi_lainnya')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

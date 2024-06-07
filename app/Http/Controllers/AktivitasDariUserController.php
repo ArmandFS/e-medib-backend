@@ -36,8 +36,10 @@ class AktivitasDariUserController extends Controller
      */
     public function store(Request $request)
     {
-        $dataAlreadyStored = AktivitasDariUser::where('nama_aktivitas', "LIKE", $request['nama_aktivitas'])->first();
+        $currentUserId =  Auth::user()->id;
+        $dataAlreadyStored = AktivitasDariUser::where('user_id', '=',  $currentUserId)->where('id_nama_aktivitas', "LIKE", $request['id_nama_aktivitas'])->exists();
         $request->validate([
+            'id_nama_aktivitas' => ['required'],
             'nama_aktivitas' => ['string', 'required'],
             'met' => ['string', 'required'],
             'durasi' => ['string', 'required'],
@@ -48,6 +50,7 @@ class AktivitasDariUserController extends Controller
         $kalori = (float)$request['met'] * 0.0175 * (float)$request['berat_badan'] * (float)$request['durasi'];
 
         $data = [
+            "id_nama_aktivitas" => $request['id_nama_aktivitas'],
             "nama_aktivitas" => $request['nama_aktivitas'],
             "met" => $request['met'],
             "durasi" => $request['durasi'],
@@ -56,15 +59,17 @@ class AktivitasDariUserController extends Controller
             "user_id" =>  Auth::user()->id
         ];
 
-        if ($dataAlreadyStored) return  response()->json([
-            "status" => false,
-            "message" => "Data aktivitas sudah ditambahkan"
-        ], 500);
-
-        $createData = AktivitasDariUser::create($data);
-        return response()->json([
-            "data" => $createData
-        ]);
+        if ($dataAlreadyStored) {
+            return  response()->json([
+                "status" => false,
+                "message" => "Data aktivitas sudah ditambahkan",
+            ], 500);
+        } else {
+            $createData = AktivitasDariUser::create($data);
+            return response()->json([
+                "data" => $createData
+            ]);
+        }
     }
 
 

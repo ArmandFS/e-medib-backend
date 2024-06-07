@@ -17,12 +17,10 @@ return new class extends Migration
             $table->string('username', 100)->unique();
             $table->string('nik')->nullable();
             $table->string('email')->unique();
-            $table->string('tanggal_lahir')->nullable();
             $table->string('jenis_kelamin')->nullable();
+            $table->string('usia')->nullable();
             $table->string('tinggi_badan')->nullable();
             $table->string('berat_badan')->nullable();
-            $table->string('jenis_alergi')->nullable();
-            $table->string('riwayat_penyakit')->nullable();
             $table->string('password');
             $table->softDeletes();
             $table->timestamps();

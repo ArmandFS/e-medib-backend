@@ -22,12 +22,10 @@ class User extends Authenticatable
         'username',
         'nik',
         'email',
-        'tanggal_lahir',
         'jenis_kelamin',
+        'usia',
         'tinggi_badan',
         'berat_badan',
-        'jenis_alergi',
-        'riwayat_penyakit',
         'password',
     ];
 

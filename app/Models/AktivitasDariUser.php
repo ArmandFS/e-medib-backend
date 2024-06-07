@@ -11,6 +11,7 @@ class AktivitasDariUser extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_nama_aktivitas',
         'nama_aktivitas',
         'met',
         'durasi',

@@ -16,6 +16,10 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\TekananDarahController;
 use App\Http\Controllers\UserRecordDataController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\OptionController;
 use App\Models\AktivitasDariUser;
 use App\Models\KonsumsiMakanan;
 use App\Models\Laporan;
@@ -40,6 +44,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/account', [AuthController::class, 'accountData']);
+    Route::patch('/update-profile', [AuthController::class, 'updateProfile']);
 
     // USER RECORD DATA
     Route::get('/user-record-data', [UserRecordDataController::class, 'index']);
@@ -95,4 +100,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/rekap', [RekapController::class, 'index']);
     Route::post('/tambah-rekap', [RekapController::class, 'store']);
     Route::get('/rekap/{id}', [RekapController::class, 'show']);
+
+    // DSMQ QUESTIONS & ANSWERS
+    //api buat kalo auth
+    // Route::get('/questions', [QuestionController::class, 'index']);
+    // Route::post('/answers', [AnswerController::class, 'store']);
+    // Route::get('/results', [ResultController::class, 'index']);
+    // Route::get('/results/{id}', [ResultController::class, 'show']);
+
 });
+
+
+//api buat bukan auth
+// DSMQ QUESTIONS & ANSWERS
+    Route::get('/questions', [QuestionController::class, 'index']);
+    Route::post('/answers', [AnswerController::class, 'store']);
+    Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
+    //results based on user id
+    Route::get('/results/{id}', [ResultController::class, 'show']);

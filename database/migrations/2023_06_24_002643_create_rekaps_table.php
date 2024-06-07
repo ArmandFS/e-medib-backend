@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('rekaps', function (Blueprint $table) {
             $table->id();
             $table->string('gula_darah');
-            $table->string('gula_darah_keterangan');
             $table->string('kolesterol');
-            $table->string('kolesterol_keterangan');
             $table->string('gambar_luka');
             $table->text('catatan_luka');
             $table->string('total_konsumsi_kalori');

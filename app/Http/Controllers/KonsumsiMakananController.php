@@ -53,6 +53,10 @@ class KonsumsiMakananController extends Controller
             'porsi' => ['string', 'required'],
             'kalori' => ['string', 'required'],
             'jenis_waktu_makan' => ['string', 'required'],
+            'kadar_glukosa' => ['string'],
+            'kadar_karbohidrat' => ['string'],
+            'kadar_protein' => ['string'],
+            'kandungan_gizi_lainnya' => ['string'],
         ]);
         $request['user_id'] = Auth::user()->id;
 

@@ -16,7 +16,7 @@ class BMIController extends Controller
     public function index()
     {
         $currentUserId =  Auth::user()->id;
-        $bmi = BMI::where('user_id', '=',  $currentUserId)->get();
+        $bmi = BMI::where('user_id', '=',  $currentUserId)->orderBy('created_at', 'DESC')->get();
         return response()->json([
             "data" => $bmi
         ]);

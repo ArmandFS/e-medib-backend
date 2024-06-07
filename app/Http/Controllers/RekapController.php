@@ -28,10 +28,8 @@ class RekapController extends Controller
     {
         $request->validate([
             'gula_darah' => ['string', 'required'],
-            'gula_darah_keterangan' => ['string',  'required'],
             'kolesterol' => ['string',  'required'],
-            'kolesterol_keterangan' => ['string',  'required'],
-            'gambar_luka' => ['string',  'required'],
+            'gambar_luka' => ['string', 'required'],
             'catatan_luka' => ['string',  'required'],
             'total_konsumsi_kalori' => ['string',  'required'],
             'total_pembakaran_kalori' => ['string',  'required'],

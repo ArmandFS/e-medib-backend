@@ -13,6 +13,7 @@ class Diary extends Model
 
     protected $fillable = [
         'gambar_luka',
+        'jenis_luka',
         'catatan_luka',
         'catatan',
         'user_id',

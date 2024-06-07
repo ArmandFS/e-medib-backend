@@ -15,7 +15,7 @@ class BMRController extends Controller
     public function index()
     {
         $currentUserId =  Auth::user()->id;
-        $bmr = BMR::where('user_id', '=',  $currentUserId)->get();
+        $bmr = BMR::where('user_id', '=',  $currentUserId)->orderBy('created_at', 'DESC')->get();
         return response()->json([
             "data" => $bmr
         ]);
