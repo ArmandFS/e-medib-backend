@@ -13,10 +13,10 @@ class CreateResultsTable  extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->date('fill_date');
-            $table->integer('score');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
+            $table->date('fill_date')->nullable();
+            $table->integer('score')->nullable();
             $table->timestamps();
         });
     }

@@ -6,43 +6,48 @@ use App\Models\Answer;
 use App\Models\Result;
 use Illuminate\Http\Request;
 
+
 class AnswerController extends Controller
 {
-    //
+    
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'question_id'=>'required|integer',
-            'option_id' => 'required|integer',
-            //entar ini di test lg pake user id kalo ada di tabel mysqlnya
-            //'user_id' => 'required|integer',
-            'answer_value' => 'required|integer',
+            'question_id' => 'integer',
+            'option_id' => 'integer',
+            'answer_value' => 'integer',
+            'user_id' => 'integer',
+            'fill_date' => 'date',
         ]);
 
-        //$totalScore = 0;
 
-        
-        $answer = new Answer([
-                //'user_id' => $request['user_id'],
-                'question_id' => $request['question_id'],
-                'option_id' => $request['option_id'],
-                'answer_value' => $request['answer_value'],
-            ]);
-        $answer->save();
-        //$totalScore += $answerData['answer_value'];
-        
+        $answer = Answer::create([
+            'user_id' => $request->input('user_id'),
+            'question_id' => $request->input('question_id'),
+            'option_id' => $request->input('option_id'),
+            'answer_value' => $request->input('answer_value'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        // $result = Result::create([
-        //     'user_id' => $userId,
-        //     'calculated_score' => $totalScore,
-        //     'fill_date' => $fillDate
-        // ]);
 
-        return response()->json(['message' => 'Answers and results submitted successfully', 'result' => $answer]);
-        //return response()->json(['message' => 'Answers and result saved successfully']);
+    
+        //score calculation
+        $totalScore = 0;
+        $totalScore += $request->input('answer_value');
+
+
+        $result = Result::create([
+            'user_id' => $request->input('user_id'),
+            'fill_date'=> $request->input('fill_date'),
+            'score'=> $totalScore,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        return response()->json(['message' => 'Answers submitted successfully', 'result' => $answer]);
     }
-
-
 
 
 

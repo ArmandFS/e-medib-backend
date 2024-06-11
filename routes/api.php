@@ -93,7 +93,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/konsumsi-makanan', [KonsumsiMakananController::class, 'index']);
 
     // KOLESTEROL
-    Route::post('/hitung-kolsterol', [KolesterolController::class, 'store']);
+    Route::post('/hitung-kolesterol', [KolesterolController::class, 'store']);
     Route::get('/kolesterol', [KolesterolController::class, 'index']);
 
     //  REKAP
@@ -105,7 +105,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //api buat kalo auth
     // Route::get('/questions', [QuestionController::class, 'index']);
     // Route::post('/answers', [AnswerController::class, 'store']);
-    // Route::get('/results', [ResultController::class, 'index']);
+    // Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
     // Route::get('/results/{id}', [ResultController::class, 'show']);
 
 });
