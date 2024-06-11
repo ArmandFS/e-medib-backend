@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class ResultController extends Controller
 {
+    
+
     public function index()
     {
         $results = Result::get();
@@ -16,9 +18,11 @@ class ResultController extends Controller
     {
         //show results kalo ada user
         $result = Result::with('user')->find($id);
+        
         if (!$result) {
             return response()->json(['message' => 'Result not found'], 404);
         }
         return response()->json($result);
     }
 }
+
