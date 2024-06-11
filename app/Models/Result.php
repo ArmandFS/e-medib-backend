@@ -9,7 +9,7 @@ class Result extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'calculated_score', 'fill_date'];
+    protected $fillable = ['user_id', 'score', 'fill_date'];
 
     public function user()
     {
@@ -17,3 +17,4 @@ class Result extends Model
     }
 
 }
+
