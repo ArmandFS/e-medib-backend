@@ -7,7 +7,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Name
+    | Application Name(s)
     |--------------------------------------------------------------------------
     |
     | This value is the name of your application. This value is used when the
