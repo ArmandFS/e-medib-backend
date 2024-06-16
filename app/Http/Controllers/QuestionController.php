@@ -15,7 +15,7 @@ class QuestionController extends Controller
         $questions = Question::with('options')->get();
 
         // Return the questions as a JSON response
-        return response()->json($questions);
+        return response()->json(['data' => $questions]);
     }
 
 }

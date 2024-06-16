@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 class ResultController extends Controller
 {
     
-
-
-
-
     public function index()
     {
         $results = Result::get();
@@ -25,6 +21,6 @@ class ResultController extends Controller
         if (!$result) {
             return response()->json(['message' => 'Result not found'], 404);
         }
-        return response()->json($result);
+        return response()->json( ["data" => $result]);
     }
 }

@@ -20,6 +20,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\OptionController;
+use App\Http\Controllers\SubmitController;
 use App\Models\AktivitasDariUser;
 use App\Models\KonsumsiMakanan;
 use App\Models\Laporan;
@@ -116,5 +117,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/questions', [QuestionController::class, 'index']);
     Route::post('/answers', [AnswerController::class, 'store']);
     Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
+    Route::post('/submit',[SubmitController::class, 'store']);
     //results based on user id
     Route::get('/results/{id}', [ResultController::class, 'show']);

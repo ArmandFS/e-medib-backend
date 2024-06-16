@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     use HasFactory;
-    protected $fillable = ['question_id', 'option_id', 'answer_value', 'user_id'];
+    protected $fillable = ['question_id',  'answer_value', 'user_id'];
 
     public function question()
     {
@@ -19,9 +19,5 @@ class Answer extends Model
     {
         return $this->belongsTo(Option::class);
     }
-
-
-
-
 
 }
