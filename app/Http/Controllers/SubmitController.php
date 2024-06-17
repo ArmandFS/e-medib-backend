@@ -21,11 +21,9 @@ class SubmitController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
             $totalScore += $value['answer'];
 
         }
-
         $result = Result::create([
             'user_id' => $request->input('user_id'),
             'fill_date'=> $request->input('fill_date'),
