@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 class ResultController extends Controller
 {
     
+<<<<<<< HEAD
+=======
+
+>>>>>>> e553b755ce938868e8461cccd5cb1919901cdf83
     public function index()
     {
         $results = Result::get();
@@ -24,3 +28,4 @@ class ResultController extends Controller
         return response()->json( ["data" => $result]);
     }
 }
+

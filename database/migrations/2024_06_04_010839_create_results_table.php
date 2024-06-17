@@ -29,3 +29,4 @@ class CreateResultsTable  extends Migration
         Schema::dropIfExists('results');
     }
 };
+

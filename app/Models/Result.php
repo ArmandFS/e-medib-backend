@@ -17,3 +17,4 @@ class Result extends Model
     }
 
 }
+
