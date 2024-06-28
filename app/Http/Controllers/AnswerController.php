@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\Result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class AnswerController extends Controller
@@ -20,7 +21,7 @@ class AnswerController extends Controller
         ]);
 
         $answer = Answer::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => Auth::user()->id,
             'question_id' => $request->input('question_id'),
             'answer_value' => $request->input('answer_value'),
             'created_at' => now(),
@@ -33,7 +34,7 @@ class AnswerController extends Controller
 
 
         $result = Result::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => Auth::user()->id,
             'fill_date'=> $request->input('fill_date'),
             'score'=> $totalScore,
             'created_at' => now(),

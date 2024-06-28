@@ -25,7 +25,7 @@ class CreateOptionsTable extends Migration
         });
 
         // Insert options into the table
-        $options = ['3 - Sangat berlaku bagi saya', '2 - Berlaku bagi saya', '1 - Sedikit berlaku bagi saya', '0 - Tidak berlaku bagi saya'];
+        $options = ['0', '1', '2', '3'];
         $questionIds = range(1, 16); 
         $data = [];
 
@@ -45,3 +45,4 @@ class CreateOptionsTable extends Migration
         Schema::dropIfExists('options');
     }
 };
+

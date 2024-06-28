@@ -102,21 +102,28 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/tambah-rekap', [RekapController::class, 'store']);
     Route::get('/rekap/{id}', [RekapController::class, 'show']);
 
-    // DSMQ QUESTIONS & ANSWERS
+    // // DSMQ QUESTIONS & ANSWERS
     //api buat kalo auth
-    // Route::get('/questions', [QuestionController::class, 'index']);
-    // Route::post('/answers', [AnswerController::class, 'store']);
-    // Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
+    Route::get('/questions', [QuestionController::class, 'index']);
+    Route::post('/answers', [AnswerController::class, 'store']);
+    Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
+    Route::post('/submit',[SubmitController::class, 'store']);
     // Route::get('/results/{id}', [ResultController::class, 'show']);
+    //get results by user id
+    Route::get('/results/user', [ResultController::class, 'getByUserId']);
+
 
 });
 
 
 //api buat bukan auth
 // DSMQ QUESTIONS & ANSWERS
-    Route::get('/questions', [QuestionController::class, 'index']);
-    Route::post('/answers', [AnswerController::class, 'store']);
-    Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
-    Route::post('/submit',[SubmitController::class, 'store']);
-    //results based on user id
-    Route::get('/results/{id}', [ResultController::class, 'show']);
+  // DSMQ QUESTIONS & ANSWERS
+   
+    // Route::get('/questions', [QuestionController::class, 'index']);
+    // Route::post('/answers', [AnswerController::class, 'store']);
+    // Route::get('/options/question/{questionId}', [OptionController::class, 'getOptionsByQuestion']);
+    // Route::post('/submit',[SubmitController::class, 'store']);
+    // // Route::get('/results/{id}', [ResultController::class, 'show']);
+    // //get results by user id
+    // Route::get('/results/user', [ResultController::class, 'getByUserId']);
