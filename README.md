@@ -85,60 +85,7 @@ To get started with the E-Medib backend, follow these steps:
     php artisan serve
     ```
 
-## Configuration
 
-Ensure you have the following configurations in your `.env` file:
-
-```env
-APP_NAME=E-Medib
-APP_ENV=local
-APP_KEY=base64:your_application_key
-APP_DEBUG=true
-APP_URL=http://localhost
-
-LOG_CHANNEL=stack
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=your_database_name
-DB_USERNAME=your_database_username
-DB_PASSWORD=your_database_password
-
-BROADCAST_DRIVER=log
-CACHE_DRIVER=file
-QUEUE_CONNECTION=sync
-SESSION_DRIVER=file
-SESSION_LIFETIME=120
-```
-
-## Usage
-
-After setting up the project, you can use the following commands to manage the backend:
-
-- **Start the server:**
-
-    ```bash
-    php artisan serve
-    ```
-
-- **Run database migrations:**
-
-    ```bash
-    php artisan migrate
-    ```
-
-- **Run database seeders:**
-
-    ```bash
-    php artisan db:seed
-    ```
-
-- **Run tests:**
-
-    ```bash
-    php artisan test
-    ```
 
 ## API Endpoints
 
