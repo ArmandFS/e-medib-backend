@@ -15,15 +15,6 @@
 
 E-Medib is an Android application designed to monitor, document, and assess the condition of Diabetes Mellitus type 1 and 2 patients. The backend backbone for this application is built using Laravel, a powerful MVC PHP framework. This backend handles user authentication, data management, and integration with the Diabetes Self-Management Questionnaire (DSMQ).
 
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
